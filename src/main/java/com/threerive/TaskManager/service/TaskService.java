@@ -1,5 +1,6 @@
 package com.threerive.TaskManager.service;
 
+import com.threerive.TaskManager.dto.TaskRequest;
 import com.threerive.TaskManager.model.Task;
 import com.threerive.TaskManager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,15 @@ public class TaskService {
 
     /**
      * Create a new task
-     * @param task
+     * @param taskRequest
      * @return Task
      */
-    public Task createTask(Task task) {
+    public Task createTask(TaskRequest taskRequest) {
+        Task task = new Task();
+        task.setName(taskRequest.getName());
+        task.setDescription(taskRequest.getDescription());
+        task.setPriority(taskRequest.getPriority());
+        task.setStatus(taskRequest.getStatus());
         // Additional validation logic if needed
         return (Task) taskRepository.save(task);
     }
