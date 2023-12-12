@@ -1,5 +1,6 @@
 package com.threerive.TaskManager.model;
 
+import com.threerive.TaskManager.enums.TaskPriority;
 import com.threerive.TaskManager.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,8 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    private Integer priority;
+    @Enumerated(EnumType.STRING)
+    private TaskPriority priority;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
