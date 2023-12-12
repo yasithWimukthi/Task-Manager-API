@@ -4,9 +4,9 @@ import com.threerive.TaskManager.dto.TaskRequest;
 import com.threerive.TaskManager.model.Task;
 import com.threerive.TaskManager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class TaskController {
     public ResponseEntity<Object> createTask(@Validated @RequestBody TaskRequest taskRequest) {
         try {
             Task createdTask = taskService.createTask(taskRequest);
-            return ResponseEntity.ok(createdTask);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Internal Server Error");
         }
