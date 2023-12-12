@@ -32,9 +32,4 @@ public class TaskController {
         }
     }
 
-    // Exception handler for validation errors
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
-        return ResponseEntity.badRequest().body("Validation error: " + ex.getBindingResult().getFieldError().getDefaultMessage());
-    }
 }
