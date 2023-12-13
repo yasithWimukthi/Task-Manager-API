@@ -49,4 +49,23 @@ public class TaskService {
         // Additional validation logic if needed
         return (Task) taskRepository.save(task);
     }
+
+    /**
+     * Update an existing task
+     * @param id
+     * @param updatedTask
+     * @return Task
+     */
+    public Task updateTask(Long id, Task updatedTask) {
+        // Additional validation and error handling if needed
+        Task existingTask = (Task) taskRepository.findById(id).orElse(null);
+        if (existingTask != null) {
+            existingTask.setName(updatedTask.getName());
+            existingTask.setDescription(updatedTask.getDescription());
+            existingTask.setPriority(updatedTask.getPriority());
+            existingTask.setStatus(updatedTask.getStatus());
+            return (Task) taskRepository.save(existingTask);
+        }
+        return null;
+    }
 }
