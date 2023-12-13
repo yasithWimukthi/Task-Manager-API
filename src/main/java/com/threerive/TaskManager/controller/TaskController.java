@@ -22,6 +22,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    @GetMapping
+    public List<Task> getAllTasks() {
+        return taskService.getAllTasks();
+    }
+
     @PostMapping
     public ResponseEntity<Object> createTask(@Validated @RequestBody TaskRequest taskRequest) {
         try {
