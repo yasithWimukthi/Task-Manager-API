@@ -44,7 +44,7 @@ public class TaskController {
             Task createdTask = taskService.createTask(taskRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Internal Server Error");
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 

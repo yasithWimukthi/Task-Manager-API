@@ -3,6 +3,7 @@ package com.threerive.TaskManager.service;
 import com.threerive.TaskManager.dto.TaskRequest;
 import com.threerive.TaskManager.exception.TaskDeleteException;
 import com.threerive.TaskManager.exception.TaskNotFoundException;
+import com.threerive.TaskManager.exception.TaskUpdateException;
 import com.threerive.TaskManager.model.Task;
 import com.threerive.TaskManager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +45,19 @@ public class TaskService {
      * @return Task
      */
     public Task createTask(TaskRequest taskRequest) {
-        Task task = new Task();
-        task.setName(taskRequest.getName());
-        task.setDescription(taskRequest.getDescription());
-        task.setPriority(taskRequest.getPriority());
-        task.setStatus(taskRequest.getStatus());
-        // Additional validation logic if needed
-        return (Task) taskRepository.save(task);
+        try {
+            Task task = new Task();
+            task.setName(taskRequest.getName());
+            task.setDescription(taskRequest.getDescription());
+            task.setPriority(taskRequest.getPriority());
+            task.setStatus(taskRequest.getStatus());
+            // Additional validation logic if needed
+            return (Task) taskRepository.save(task);
+        } catch (Exception e) {
+            // Handle other unexpected exceptions
+            throw new TaskUpdateException(e.getMessage());
+        }
+
     }
 
     /**
@@ -76,7 +83,7 @@ public class TaskService {
             }
         }catch (Exception e) {
             // Handle other unexpected exceptions
-            throw new TaskNotFoundException("Task with id " + id + " not found");
+            throw new TaskUpdateException(e.getMessage());
         }
     }
 
