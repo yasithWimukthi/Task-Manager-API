@@ -49,7 +49,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateTask(@PathVariable Long id, @Valid @RequestBody Task updatedTask) {
+    public ResponseEntity<Object> updateTask(@PathVariable Long id, @Validated @RequestBody TaskRequest updatedTask) {
         try {
             Task task = taskService.updateTask(id, updatedTask);
             return task != null ? ResponseEntity.ok(task) : ResponseEntity.notFound().build();
