@@ -1,9 +1,12 @@
 package com.threerive.TaskManager.service;
 
 import com.threerive.TaskManager.dto.TaskRequest;
+import com.threerive.TaskManager.exception.TaskDeleteException;
+import com.threerive.TaskManager.exception.TaskNotFoundException;
 import com.threerive.TaskManager.model.Task;
 import com.threerive.TaskManager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,14 +61,46 @@ public class TaskService {
      */
     public Task updateTask(Long id, Task updatedTask) {
         // Additional validation and error handling if needed
-        Task existingTask = (Task) taskRepository.findById(id).orElse(null);
-        if (existingTask != null) {
-            existingTask.setName(updatedTask.getName());
-            existingTask.setDescription(updatedTask.getDescription());
-            existingTask.setPriority(updatedTask.getPriority());
-            existingTask.setStatus(updatedTask.getStatus());
-            return (Task) taskRepository.save(existingTask);
+        try {
+            Task existingTask = (Task) taskRepository.findById(id).orElse(null);
+
+            if (existingTask != null) {
+                existingTask.setName(updatedTask.getName());
+                existingTask.setDescription(updatedTask.getDescription());
+                existingTask.setPriority(updatedTask.getPriority());
+                existingTask.setStatus(updatedTask.getStatus());
+                return (Task) taskRepository.save(existingTask);
+            }else {
+                // Task not found, you can throw a custom exception or handle it as needed
+                throw new TaskNotFoundException("Task with id " + id + " not found");
+            }
+        }catch (Exception e) {
+            // Handle other unexpected exceptions
+            throw new TaskNotFoundException("Task with id " + id + " not found");
         }
-        return null;
     }
+
+    /**
+     * Delete a task
+     * @param id
+     */
+    public void deleteTask(Long id) {
+        try {
+            Optional<Task> existingTask = taskRepository.findById(id);
+
+            if (existingTask.isPresent()) {
+                taskRepository.deleteById(id);
+            } else {
+                // Task not found, you can throw a custom exception or handle it as needed
+                throw new TaskNotFoundException("Task with id " + id + " not found");
+            }
+        } catch (EmptyResultDataAccessException e) {
+            // Handle the case where the task was not found during deletion
+            throw new TaskNotFoundException("Task with id " + id + " not found");
+        } catch (Exception e) {
+            // Handle other unexpected exceptions
+            throw new TaskDeleteException(e.getMessage());
+        }
+    }
+
 }
