@@ -18,6 +18,8 @@ import java.util.Optional;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+    private static final Logger logger = LoggerFactory.getLogger(TaskService.class);
+
     @Autowired
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
@@ -57,6 +59,7 @@ public class TaskService {
             return (Task) taskRepository.save(task);
         } catch (Exception e) {
             // Handle other unexpected exceptions
+            logger.error("An error occurred: (Create Task) ", e.getMessage(), e);
             throw new TaskUpdateException(e.getMessage());
         }
 
@@ -85,6 +88,7 @@ public class TaskService {
             }
         }catch (Exception e) {
             // Handle other unexpected exceptions
+            logger.error("An error occurred: (Update Task) ", e.getMessage(), e);
             throw new TaskUpdateException(e.getMessage());
         }
     }
@@ -108,6 +112,7 @@ public class TaskService {
             throw new TaskNotFoundException("Task with id " + id + " not found");
         } catch (Exception e) {
             // Handle other unexpected exceptions
+            logger.error("An error occurred: (Delete Task) ", e.getMessage(), e);
             throw new TaskDeleteException(e.getMessage());
         }
     }
