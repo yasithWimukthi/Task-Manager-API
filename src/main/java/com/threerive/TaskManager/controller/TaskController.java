@@ -54,7 +54,17 @@ public class TaskController {
             Task task = taskService.updateTask(id, updatedTask);
             return task != null ? ResponseEntity.ok(task) : ResponseEntity.notFound().build();
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Internal Server Error");
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteTask(@PathVariable Long id) {
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
