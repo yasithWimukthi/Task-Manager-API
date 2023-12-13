@@ -27,6 +27,16 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTaskById(@PathVariable Long id) {
+        try {
+            Optional<Task> task = taskService.getTaskById(id);
+            return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal Server Error");
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Object> createTask(@Validated @RequestBody TaskRequest taskRequest) {
         try {
