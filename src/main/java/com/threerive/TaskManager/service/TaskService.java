@@ -6,12 +6,22 @@ import com.threerive.TaskManager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
     @Autowired
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
+    }
+
+    /**
+     * Get all tasks
+     * @return List<Task>
+     */
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
     }
 
     /**
