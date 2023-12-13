@@ -3,6 +3,7 @@ package com.threerive.TaskManager.controller;
 import com.threerive.TaskManager.dto.TaskRequest;
 import com.threerive.TaskManager.model.Task;
 import com.threerive.TaskManager.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,16 @@ public class TaskController {
         try {
             Task createdTask = taskService.createTask(taskRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal Server Error");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateTask(@PathVariable Long id, @Valid @RequestBody Task updatedTask) {
+        try {
+            Task task = taskService.updateTask(id, updatedTask);
+            return task != null ? ResponseEntity.ok(task) : ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Internal Server Error");
         }
