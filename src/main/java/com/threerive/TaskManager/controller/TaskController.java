@@ -3,7 +3,6 @@ package com.threerive.TaskManager.controller;
 import com.threerive.TaskManager.dto.TaskRequest;
 import com.threerive.TaskManager.model.Task;
 import com.threerive.TaskManager.service.TaskService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
