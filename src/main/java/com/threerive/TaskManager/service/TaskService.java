@@ -55,7 +55,6 @@ public class TaskService {
             task.setDescription(taskRequest.getDescription());
             task.setPriority(taskRequest.getPriority());
             task.setStatus(taskRequest.getStatus());
-            // Additional validation logic if needed
             return (Task) taskRepository.save(task);
         } catch (Exception e) {
             // Handle other unexpected exceptions
@@ -72,7 +71,6 @@ public class TaskService {
      * @return Task
      */
     public Task updateTask(Long id, TaskRequest updatedTask) {
-        // Additional validation and error handling if needed
         try {
             Task existingTask = (Task) taskRepository.findById(id).orElse(null);
 
@@ -83,7 +81,6 @@ public class TaskService {
                 existingTask.setStatus(updatedTask.getStatus());
                 return (Task) taskRepository.save(existingTask);
             }else {
-                // Task not found, you can throw a custom exception or handle it as needed
                 throw new TaskNotFoundException("Task with id " + id + " not found");
             }
         }catch (Exception e) {
@@ -104,7 +101,6 @@ public class TaskService {
             if (existingTask.isPresent()) {
                 taskRepository.deleteById(id);
             } else {
-                // Task not found, you can throw a custom exception or handle it as needed
                 throw new TaskNotFoundException("Task with id " + id + " not found");
             }
         } catch (EmptyResultDataAccessException e) {
