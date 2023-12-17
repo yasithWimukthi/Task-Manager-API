@@ -62,7 +62,6 @@ public class TaskController {
     public ResponseEntity<Object> deleteTask(@PathVariable Long id) {
         try {
             taskService.deleteTask(id);
-            // return all tasks after deletion
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
