@@ -18,11 +18,14 @@ public class TaskRequest {
     private String name;
 
     @NotNull(message = "Description cannot be empty.")
+    @JsonDeserialize(using = EmptyStringToNullDeserializer.class)
     private String description;
 
     @NotNull(message = "Priority cannot be empty.")
+    @JsonDeserialize(using = EmptyStringToNullDeserializer.class)
     private TaskPriority priority;
 
     @NotNull(message = "Status cannot be empty.")
+    @JsonDeserialize(using = EmptyStringToNullDeserializer.class)
     private TaskStatus status;
 }
