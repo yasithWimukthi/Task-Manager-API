@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3002")
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -62,6 +62,7 @@ public class TaskController {
     public ResponseEntity<Object> deleteTask(@PathVariable Long id) {
         try {
             taskService.deleteTask(id);
+            // return all tasks after deletion
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
